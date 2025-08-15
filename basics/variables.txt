@@ -1,0 +1,35 @@
+package main
+
+import "fmt"
+
+// middleName := "Caine" // does not work
+var middleName = "Caine" // at package level i.e. global scope, var must be used
+
+func main() {
+	var age int
+	var name string = "John"
+	var name1 string = "Jane"
+
+	// var count int = 10 // shortened to count := 10
+	count := 10
+	lastName := "Smith"
+	// middleName := "Caine"
+	middleName := "Myers"
+
+	fmt.Println(middleName)
+
+	// Default Values
+	// Numberic Types: 0
+	// Boolean Values: false
+	// String Types: "" (empty string)
+	// Pointers slices, maps, functions, and structs: nil
+
+	// --- SCOPE
+
+	fmt.Println(firstName)
+}
+
+func printname() {
+	firstName := "Michael"
+	fmt.Println(firstName)
+}
