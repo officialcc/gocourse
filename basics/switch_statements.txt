@@ -1,0 +1,100 @@
+package main
+
+import "fmt"
+
+func main() {
+	// Switch statement structure:
+	// switch expression {
+	// case value1:
+	// 	// Code to execute if expression equals value1
+	// case value2:
+	// 	// Code to execute if expression equals value2
+	// case value3:
+	// 	// Code to execute if expression equals value3
+	// default:
+	// 	// Code to execute if expression does not match any of the values
+	// }
+	// No need to specify "break" in Go
+
+	// fallthrough - If switch case is to continue, i.e. not break after a condition is met
+	// switch expression {
+	// case value1:
+	// 	// Code to execute if expression equals value1
+	// 	fallthrough
+	// case value2:
+	// 	// Code to execute if expression equals value2
+	// 	fallthrough
+	// case value3:
+	// 	// Code to execute if expression equals value3
+	// 	fallthrough
+	// default:
+	// 	// Code to execute if expression does not match any of the values
+	// }
+
+	fruit := "pineapple"
+
+	switch fruit {
+	case "apple":
+		fmt.Println("It's an apple")
+	case "banana":
+		fmt.Println("It's a banana")
+	default:
+		fmt.Println("Unknown fruit!")
+	}
+
+	// Multiple conditions for a single case
+	day := "Monday"
+
+	switch day {
+	case "Monday", "Tuesday", "Wednesday", "Thursday", "Friday":
+		fmt.Println("It's a weekday!")
+	case "Saturday", "Sunday":
+		fmt.Println("It's the weekend!")
+	default:
+		fmt.Println("Invalid input!")
+	}
+
+	// Multiple comparison conditions
+	number := 15
+
+	switch {
+	case number < 10:
+		fmt.Println("Number is less than 10")
+	case number >= 10 && number < 20:
+		fmt.Println("Number is between 10 and 19")
+	default:
+		fmt.Println("Number is 20 or higher")
+	}
+
+	// fallthrough example
+	num := 2
+
+	switch {
+	case num > 1:
+		fmt.Println("Number is greater than 1")
+		fallthrough
+	case num == 2:
+		fmt.Println("Number is 2")
+	default:
+		fmt.Println("Number is not 2")
+	}
+
+	checkType(10)
+	checkType(3.14)
+	checkType("Hello")
+	checkType(true)
+}
+
+// Switch case for type assertion - fallthrough will not work in a type switch
+func checkType(x interface{}) {
+	switch x.(type) {
+	case int:
+		fmt.Println("It's an integer!")
+	case float64:
+		fmt.Println("It's an float!")
+	case string:
+		fmt.Println("It's a string!")
+	default:
+		fmt.Println("Unknown type!")
+	}
+}

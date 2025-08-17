@@ -1,0 +1,50 @@
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func main() {
+	var a, b int = 10, 3
+	var result int
+
+	result = a + b
+	fmt.Println("Addition:", result)
+
+	result = a - b
+	fmt.Println("Subtraction:", result)
+
+	result = a * b
+	fmt.Println("Multiplication:", result)
+
+	result = a / b
+	fmt.Println("Division:", result) // result = 3 due to int divide by int = int
+
+	result = a % b
+	fmt.Println("Remainder", result)
+
+	const p float64 = 22.0 / 7 // result = 3.142857142857143 when either or both operands are floating point numbers
+	fmt.Println(p)
+
+	// Overflow with signed integer
+	var maxInt int64 = 9223372036854775807 // max value that int64 can hold
+	fmt.Println(maxInt) // result = 9223372036854775807
+
+	maxInt = maxInt + 1
+	fmt.Println(maxInt) // result = -9223372036854775808
+
+	// Overflow with unsigned integer
+	var uMaxInt uint64 = 18446744073709551615 // max value for uint64 type
+	fmt.Println(uMaxInt) // result = 18446744073709551615
+
+	uMaxInt = uMaxInt + 1
+	fmt.Println(uMaxInt) // result = 0
+
+	// Underflow with floating point numbers
+	var smallFloat float64 = 1.0e-323
+	fmt.Println(smallFloat) // result = 1.0e-323 (10 to the power of 323)
+	
+	smallFloat = smallFloat / math.MaxFloat64
+	fmt.Println(smallFloat) // result = 0
+}
