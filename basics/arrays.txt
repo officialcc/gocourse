@@ -1,0 +1,83 @@
+package main
+
+import "fmt"
+
+func main() {
+	// Array format:
+	// var arrayName [size]elementType
+
+	var numbers [5]int
+	fmt.Println(numbers) // prints [0 0 0 0 0]
+
+	numbers[4] = 20
+	fmt.Println(numbers) // prints [0 0 0 0 20]
+
+	numbers[0] = 9
+	fmt.Println(numbers) // prints [9 0 0 0 20]
+
+	// To specify all individual elements of array:
+	fruits := [4]string{"Apple", "Banana", "Orange", "Grapes"}
+	fmt.Println("Fuits Array:", fruits)
+
+	fmt.Println("Third Element of Array:", fruits[2])
+
+	// Array manipulation
+	originalArray := [3]int{1, 2, 3}
+	copiedArray := originalArray
+
+	copiedArray[0] = 100
+	fmt.Println("Original Array:", originalArray) // prints [1 2 3]
+	fmt.Println("Copied Array:", copiedArray)     // prints [100 2 3]
+
+	// Pointer example -> newCopiedArray pointing to newOriginalArray
+	newOriginalArray := [3]int{1, 2, 3}
+	var newCopiedArray *[3]int
+
+	newCopiedArray = &newOriginalArray
+	newCopiedArray[0] = 1000
+	fmt.Println("Original Array:", newOriginalArray) // prints [1 2 3]
+	fmt.Println("Copied Array:", *newCopiedArray)    // prints [100 2 3]
+
+	for i := 0; i < len(numbers); i++ {
+		fmt.Println("Element at index,", i, ":", numbers[i])
+	}
+
+	// replace index with i, replace value with v
+	// for index, value := range numbers {
+	for i, v := range numbers {
+		fmt.Printf("Index: %d, Value: %d\n", i, v)
+	}
+
+	// To omit a value e.g. i, replace it with underscore i.e. a Blank Identifier
+	for _, v := range numbers {
+		fmt.Printf("Value: %d\n", v)
+	}
+
+	fmt.Println("The length of numbers array is", len(numbers))
+
+	//Comparing Arrays
+	array1 := [3]int{1, 2, 3}
+	array2 := [3]int{1, 2, 3}
+
+	fmt.Println("Is Array 1 equal to Array 2?", array1 == array2)
+
+	// Matrix i.e. multidimensional arrays (i.e. arrays of arrays)
+	var matrix [3][3]int = [3][3]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9},
+	}
+	fmt.Println(matrix)
+
+	a, _ := someFunction()
+	fmt.Println(a)
+	// fmt.Println(b)
+
+	b := 2
+	_ = b
+
+}
+
+func someFunction() (int, int) {
+	return 1, 2
+}
