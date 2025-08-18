@@ -1,0 +1,78 @@
+package main
+
+import (
+	"fmt"
+	"slices"
+)
+
+func main() {
+	// slices format
+	// var sliceName[]ElementType
+
+	// var numbers []int
+	// var numbers1 = []int{1, 2, 3}
+
+	// numbers2 := []int{9, 8, 7}
+
+	// Initializing a slice
+	// slice := make([]int, 5)
+
+	a := [5]int{1, 2, 3, 4, 5}
+	slice1 := a[1:4] // A slice containing index #1 to index #4 but does not include index #4
+
+	fmt.Println(slice1) // prints [2 3 4]
+
+	// Appending values to a slice
+	slice1 = append(slice1, 6, 7)
+	fmt.Println("Slice1:", slice1)
+
+	// Copy a slice using make function
+	sliceCopy := make([]int, len(slice1))
+	copy(sliceCopy, slice1)
+
+	fmt.Println("SliceCopy:", sliceCopy)
+
+	// A nil/empty slice
+	var nilSlice []int
+	fmt.Println(nilSlice)
+
+	for i, v := range slice1 {
+		fmt.Println(i, v)
+	}
+
+	// To get a value from a slice
+	fmt.Println("Element at index 3 of slice1", slice1[3])
+
+	// Modify/Manipulate a value in a slice
+	slice1[3] = 50
+	fmt.Println("Element at index 3 of slice1", slice1[3])
+
+	// Comparing 2 slices
+	if slices.Equal(slice1, sliceCopy) {
+		fmt.Println("slice1 is equal to sliceSopy")
+	} else {
+		fmt.Println("slice1 is not equal to sliceCopy")
+	}
+
+	// Using a for loop to create a multi-dimensional slice
+	twoD := make([][]int, 3)
+	for i := 0; i < 3; i++ {
+		innerLen := i + 1
+		twoD[i] = make([]int, innerLen)
+		for j := 0; j < innerLen; j++ {
+			twoD[i][j] = i + j
+			fmt.Printf("Adding value %d in ouoter slice at index %d, and in inner slice index of %d\n", i + j, i, j)
+		}
+	}
+	fmt.Println(twoD)
+
+	// slice[low:high]
+	slice2 := slice1[2:4] // A slice containing index #2 to index #4 but does not include index #4
+	fmt.Println(slice2)
+
+	// Caoacity of a slice
+	fmt.Println("The capacity of slice2 is", cap(slice2))
+
+	// Length of a slice
+	fmt.Println("The capacity of slice2 is", len(slice2))
+}
