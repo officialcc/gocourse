@@ -1,0 +1,18 @@
+package main
+
+import "fmt"
+
+func main() {
+	message := "Hello World"
+
+	for i, v := range message {
+		fmt.Println(i, v)
+		fmt.Printf("Index %d, Rune: %c\n", i, v) // rune = Go equivalent of char
+	}
+
+	// Using blank identifier with range
+	for _, v := range message {
+		fmt.Println(v)
+		fmt.Printf("Rune: %c\n", v)
+	}
+}

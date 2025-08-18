@@ -1,0 +1,46 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func main() {
+	// Function with multiple return values format:
+	// func functionName(parameter1 type1, parameter2 type2, ...) (returnType1, returnType2, ...){
+	// 	code block
+	// 	return returnValue1, returnValue2, ...
+	// }
+
+	q, r := divide(10, 3)
+	fmt.Printf("Quotient: %v, Remainder: %v\n", q, r) // %d is specific to integers
+
+	result, err := compare(2, 3)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println(result)
+	}
+}
+
+// func divide(a, b int) (int, int) {
+// 	quotient := a / b
+// 	remainder := a % b
+// 	return quotient, remainder
+// }
+
+func divide(a, b int) (quotient int, remainder int) {
+	quotient = a / b // Where the variables are named in the function, subsequent uses = not :=
+	remainder = a % b
+	return // Where the variables are named in the function, no need to declare in the return statement
+}
+
+func compare(a, b int) (string, error) {
+	if (a > b) {
+		return "a is greater than b", nil
+	} else if b > a {
+		return "b is greater than a", nil
+	} else {
+		return "", errors.New("Unable to compare which is greater")
+	}
+}
