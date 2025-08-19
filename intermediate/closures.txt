@@ -26,6 +26,15 @@ func main() {
 	fmt.Println(subtractor(3))
 	fmt.Println(subtractor(4))
 	fmt.Println(subtractor(5))
+
+	// Real-World Example: Create price calculators applying different tax rates
+    calculateNYPrice := createPriceCalculator(0.08)  // 8% tax
+    calculateCAPrice := createPriceCalculator(0.0725) // 7.25% tax
+    
+    product := 100.0
+    fmt.Printf("Product: $%.2f\n", product) // $100.00
+    fmt.Printf("Price after taxes in NY: $%.2f\n", calculateNYPrice(product)) // prints $108.00
+    fmt.Printf("Price after taxes in CA: $%.2f\n", calculateCAPrice(product)) // prints $107.25
 }
 
 func adder() func() int {
@@ -36,4 +45,11 @@ func adder() func() int {
 		fmt.Println("Added 1 to i")
 		return i
 	}
+}
+
+// Real-World Example: Create price calculators applying different tax rates
+func createPriceCalculator(taxRate float64) func(float64) float64 {
+    return func(price float64) float64 {
+        return price * (1 + taxRate)
+    }
 }
