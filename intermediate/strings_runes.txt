@@ -1,0 +1,71 @@
+package main
+
+import (
+	"fmt"
+	"unicode/utf8"
+)
+
+func main() {
+	message := "Hello, \nGo!"	// New Line escape sequence
+	message1 := "Hello, \tGo!"	// Tab escape sequence
+	message2 := "Hello, \rGo!"	// Carriage Return escape sequence -> Goes back to start of same line not new line
+	message3 := "Hello, Go!"	
+	rawMessage := `Hello\nGo`	// Escape sequence is disregarded
+
+	fmt.Println(message)
+	fmt.Println(message1)
+	fmt.Println(message2)
+	fmt.Println(rawMessage)
+
+	fmt.Println("Length of message3 variable is", len(message3))
+	fmt.Println("First character in message var is", message[0]) // ASCII of H -> 72
+
+	greeting := "Hello "
+	name := "Alice"
+	fmt.Println(greeting + name) // In string concatenation, no auto space between each string
+
+	str1 := "Apple" // A has ASCII value of 65
+	str2 := "banana" // b has ASCII value of 98
+	str3 := "app" // a has ASCII value of 97
+	str4 := "apple"	// a has ASCII value of 97
+	fmt.Println(str1 < str2) // prints true
+	fmt.Println(str3 < str1) // prints false
+	fmt.Println(str4 > str1) // prints true
+
+	for i, char := range message {
+		fmt.Printf("Character at index %d is %c\n", i, char)
+	}
+
+	for _, char := range message {
+		fmt.Printf("%v\n", char)
+	}
+
+	fmt.Println("Rune count:", utf8.RuneCountInString(greeting)) // prints 6 -> includes the space
+
+	greetingWithName := greeting + name
+	fmt.Println(greetingWithName)
+
+	var ch rune = 'a' // Use single-quotes for runes
+	jch := 'b'
+	fmt.Println(ch)
+	fmt.Println(jch)
+	fmt.Printf("%c\n", ch)
+	fmt.Printf("%c\n", jch)
+
+	cstr := string(ch)
+	fmt.Println(cstr)
+
+	fmt.Printf("Type of cstr is %T\n", cstr)
+
+	const WORLD = "世界"
+	fmt.Println(WORLD)
+
+	world := "世界"
+	for _, runeValue := range world {
+		fmt.Printf("%c\n", runeValue)
+	}
+
+	r := '✓'
+	fmt.Printf("%v\n", r)
+	fmt.Printf("%c\n", r)
+}
