@@ -1,0 +1,55 @@
+package main
+
+import "fmt"
+
+func main() {
+	
+	// Printing Functions
+	fmt.Print("Hello")
+	fmt.Print("World!")
+	fmt.Print("12, 345")
+
+	fmt.Println("Hello")
+	fmt.Println("World!")
+	fmt.Println("12, 345")
+
+	name := "John"
+	age := 25
+	fmt.Printf("Name: %s, Age: %d\n", name, age)
+	fmt.Printf("Binary: %b, Hexadecimal: %X\n", age, age)
+
+	// Formatting Functions
+	s := fmt.Sprint("Hello", "World!", 123, 456)
+	fmt.Print(s)
+
+	s = fmt.Sprintln("Hello", "World!", 123, 456)
+	fmt.Print(s)
+	fmt.Print(s) // prints on a new line
+
+	sf := fmt.Sprintf("Name: %s, Age: %d", name, age)
+	fmt.Print(sf)
+	fmt.Print(sf) // continues right after 1st line, does not print on a new line
+
+	// Scanning Functions
+	var newname string
+	var newage int
+
+	fmt.Print("Enter your name & age:")
+	// fmt.Scan(&newname, &newage)
+	// fmt.Scanln(&newname, &newage)
+	fmt.Scanf("%s %d", &newname, &newage)
+	fmt.Printf("Name: %s, Age: %d\n", newname, newage)
+
+	// Error Formatting  Functions
+	err := checkAge(15)
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+}
+
+func checkAge(age int) error {
+	if age < 18 {
+		return fmt.Errorf("Age %d is too young to drive", age)
+	}
+	return nil
+}
