@@ -1,0 +1,38 @@
+package main
+
+import "fmt"
+
+type person struct {
+	name string
+	age  int
+}
+
+type Employee struct {
+	employeeInfo person // Embedded struct Named field
+	person     // Embedded struct - Inherits the 1st struct - This example is an anonymous field
+	employeeId string
+	salary     float64
+}
+
+func (p person) introduce() {
+	fmt.Printf("Hi, I am %s and I am %d years old.\n", p.name, p.age)
+}
+
+// Overriding a method with a different method of the same name
+func (e Employee) introduce() {
+	fmt.Printf("Hi, I am %s, employee ID %s, and I earn %.2f.\n, e.name, e.employeeId, e.salary")
+}
+
+func main() {
+	emp := Employee{
+		person:     person{name: "John", age: 30},
+		employeeId: "E001", salary: 50000,
+	}
+
+	fmt.Println("Name:", emp.employeeInfo.name) // Accessing the embedded struct field emp.person.name directly	} Field promotion
+	fmt.Println("Age:", emp.employeeInfo.age) // Accessing the embedded struct field emp.person.age directly	} Field promotion
+	fmt.Println("Employee ID:", emp.employeeId)
+	fmt.Println("Salary:", emp.salary)
+
+	emp.introduce()
+}
