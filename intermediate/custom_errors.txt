@@ -1,0 +1,66 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func main() {
+	err := doSomething()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Operation completed successfully")
+}
+
+// Part 1
+// type customError struct {
+// 	code    int
+// 	message string
+// 	err     error
+// }
+
+// Part 2
+type customError struct {
+	code    int
+	message string
+	er     error
+}
+
+// Error returns the error message. Implementing Error() method of error interface
+// Part 1
+// func (e *customError) Error() string {
+// 	return fmt.Sprintf("Error %d: %s\n", e.code, e.message)
+// }
+
+// Part 2
+func (e *customError) Error() string {
+	return fmt.Sprintf("Error %d: %s, %v\n", e.code, e.message, e.er)
+}
+
+// Part 1
+// Function that returns a custom error
+// func doSomething() error {
+// 	return &customError{
+// 		code:    500,
+// 		message: "Something went wrong",
+// 	}
+// }
+
+// Part 2
+func doSomething() error {
+	err := doSomethingElse()
+	if err != nil {
+		return &customError{
+			code: 500,
+			message: "Something went wrong",
+			er: err,
+		}
+	}
+	return nil
+}
+
+func doSomethingElse() error {
+	return errors.New("Internal error")
+}

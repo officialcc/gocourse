@@ -1,0 +1,84 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func sqrt(x float64) (float64, error) {
+	if x < 0 {
+		return 0, errors.New("Math Error: Square root of a negative number")
+	}
+	// Code to compute square root
+	return 1, nil
+}
+
+func process(data []byte) error {
+	if len(data) == 0 {
+		return errors.New("Error: Empty data")
+	}
+	// Code to process data
+	return nil
+}
+
+func main() {
+	result, err := sqrt(16)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(result)
+
+	result1, err1 := sqrt(-16)
+	if err1 != nil {
+		fmt.Println(err1)
+		return
+	}
+	fmt.Println(result1)
+
+	data := []byte{}
+	// if err := process(data); err != nil {
+	err2 := process(data)
+	if err2 != nil {
+	fmt.Println("Error:", err2)
+	return
+	}
+	fmt.Println("Data Processed Successfully")
+
+	err3 := eprocess()
+	if err3 != nil {
+		fmt.Println(err3)
+		return
+	}
+
+	err4 := readData()
+	if err4 != nil {
+		fmt.Println(err4)
+		return
+	}
+	fmt.Println("Data read successfully")
+}
+
+type myError struct {
+	message string
+}
+
+func (m *myError) Error() string {
+	return fmt.Sprintf("Error: %s", m.message)
+}
+
+func eprocess() error {
+	return &myError{"Custom Error Message"}
+}
+
+func readData() error {
+	err4 := readConfig()
+	if err4 != nil {
+		return fmt.Errorf("readData: %w", err4)
+	}
+	return nil
+}
+
+func readConfig() error {
+	return errors.New("config error")
+}
