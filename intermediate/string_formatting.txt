@@ -1,0 +1,20 @@
+package main
+
+import "fmt"
+
+func main() {
+	num := 42
+	fmt.Printf("%05d\n", num) // prints 00042; pads with zeroes to a minimum of 5 digits, does not apply when 5 or more digits
+
+	message := "Hello"
+	fmt.Printf("|%10s|\n", message) // prints |     Hello| -> right alignment with minimum width of 10
+	fmt.Printf("|%-10s|\n", message) // prints |Hello     | -> left alignment with minimum width of 10
+
+	message1 := "Hello \nWorld!"
+	message2 := `Hello \nWorld!` // prints Hello \nWorld! as a raw string literal
+	fmt.Println(message1)
+	fmt.Println(message2)
+
+	// Backticks also used for SQL queries
+	// sqlQuery := `SELECT * FROM users WHERE age > 30`
+}
