@@ -1,0 +1,61 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+
+	fmt.Println(rand.Intn(101)) // random from 0 up to 100; 101 is not included
+	fmt.Println(rand.Intn(100) + 1) // to remove zero but up to 100; + 1 will be added to the generated value
+	fmt.Println(rand.Intn(6) + 5) // random from 5 up to 10
+
+	val := rand.New(rand.NewSource(40)) // To seed the pseudo random number generator with a fixed number
+	fmt.Println(val.Intn(6) + 5) // Will always generate the same number
+
+	val1 := rand.New(rand.NewSource(time.Now().Unix())) // To seed the pseudo random number generator with time.Now
+	fmt.Println(val1.Intn(101)) // Will generate random number (but still within the speciied range); still same if generated within same second
+
+	fmt.Println(rand.Float64()) // Generates random numbers between 0.0 and 1.0 (but not including 1.0)
+
+	// Dice Game
+	for {
+		// Show the menu
+		fmt.Println("Welcome to the Dice Game")
+		fmt.Println("1. Roll the dice")
+		fmt.Println("2. Exit")
+		fmt.Print("Enter your choice (1 or 2):")
+
+		var choice int
+		_, err := fmt.Scan(&choice)
+		if err != nil || (choice != 1 && choice != 2) {
+			fmt.Println("Invalid choice - Please enter only 1 or 2")
+			continue
+		}
+		if choice == 2 {
+			fmt.Println("Thanks for stopping by! Goodbye")
+			break
+		}
+
+		die1 := rand.Intn(6) + 1
+		die2 := rand.Intn(6) + 1
+
+		fmt.Printf("You rolled a %d and a %d\n", die1, die2)
+		fmt.Println("Total:", die1 + die2)
+
+		// Ask the user if they want to play again
+		fmt.Print("Play again? (y/n)")
+		var rollAgain string
+		_, err = fmt.Scan(&rollAgain)
+		if err != nil || (rollAgain != "y" && rollAgain != "n") {
+			fmt.Println("Invalid input, assumed to be no. Goodbye")
+			break
+		}
+		if rollAgain == "n" {
+			fmt.Println("Thanks for stopping by! Goodbye")
+			break
+		}
+	}
+}
