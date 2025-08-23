@@ -1,0 +1,65 @@
+package main
+
+import (
+	"fmt"
+	"net/url"
+)
+
+func main() {
+	// Format:
+	// [scheme://][userinfo@]host[:port][/path][?query][#fragment]
+	rawUrl := "https://example.com:8080/path?query=param#fragment"
+
+	parsedUrl, err := url.Parse(rawUrl)
+	if err != nil {
+		fmt.Println("Error parsing URL:", err)
+		return
+	}
+	fmt.Println("Scheme:", parsedUrl.Scheme)
+	fmt.Println("Host:", parsedUrl.Host)
+	fmt.Println("Port:", parsedUrl.Port())
+	fmt.Println("Path:", parsedUrl.Path)
+	fmt.Println("Raw Query:", parsedUrl.RawQuery)
+	fmt.Println("Fragment:", parsedUrl.Fragment)
+
+	rawUrl1 := "https://example.com/path?name=John&age=30"
+	parsedUrl1, err := url.Parse(rawUrl1)
+	if err != nil {
+		fmt.Println("Error parsing URL:", err)
+		return
+	}
+	queryParams := parsedUrl1.Query()
+	fmt.Println(queryParams)
+	fmt.Println("Name:", queryParams.Get("name"))
+	fmt.Println("Age:", queryParams.Get("age"))
+
+	// Building URL
+	baseUrl := &url.URL{
+		Scheme: "https",
+		Host: "example.com",
+		Path: "/path",
+	}
+	query := baseUrl.Query()
+	query.Set("name", "Buster")
+	query.Set("age", "40")
+	baseUrl.RawQuery = query.Encode()
+	fmt.Println("Built URL:", baseUrl.String())
+
+	values := url.Values{}
+
+	// Add key-value pairs to the values object
+	values.Add("name", "Jane")
+	values.Add("age", "30")
+	values.Add("city", "London")
+	values.Add("country", "UK")
+	
+	// Encode
+	encodedQuery := values.Encode()
+	fmt.Println(encodedQuery) // prints age=30&city=London&country=UK&name=Jane
+
+	// Build a URL
+	baseUrl1 := "https://example.com/search"
+	fullUrl := baseUrl1 + "?" + encodedQuery
+	fmt.Println(fullUrl) // prints https://example.com/search?age=30&city=London&country=UK&name=Jane
+
+}
