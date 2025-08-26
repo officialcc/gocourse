@@ -1,0 +1,47 @@
+package main
+
+import (
+	"log"
+	"os"
+)
+
+func main() {
+
+	log.Println("This is a log message") // prints 2025/08/26 22:59:52 This is a log message
+
+	// Setting a prefix
+	log.SetPrefix("INFO:")
+	log.Println("This is an info message") // prints INFO:2025/08/26 22:59:52 This is an info message
+
+	// Flags
+	log.SetFlags(log.Ldate) // set flag to print only date, not time
+	log.Println("This is a log message with only date.") // prints INFO:2025/08/26 This is a log message with only date.
+
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile) // set flags date, time, and file details (+ the line with print command)
+	log.Println("This is a log message with date, time.") // prints INFO:2025/08/26 23:03:23 logging.go:18: This is a log message with date, time.
+
+	infoLogger.Println("This is an info message")
+	warnLogger.Println("This is a warning message")
+	errorLogger.Println("This is an error message")
+
+	file, err := os.OpenFile("app.log", os.O_CREATE | os.O_WRONLY | os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("Failed to open log file: %v", err)
+	}
+	defer file.Close()
+
+	infoLogger1 := log.New(file, "INFO:", log.Ldate | log.Ltime | log.Lshortfile)
+	warnLogger1 := log.New(file, "WARN:", log.Ldate | log.Ltime | log.Lshortfile)
+	errorLogger1 := log.New(file, "ERROR:", log.Ldate | log.Ltime | log.Lshortfile)
+	debugLogger1 := log.New(file, "DEBUG: ", log.Ldate | log.Ltime | log.Lshortfile)
+	debugLogger1.Println("This is a debug message.") // creates app.log file, appends to file: INFO2025/08/26 23:38:11 logging.go:33: This is a debug message.
+	warnLogger1.Println("This is a warning message.")
+	infoLogger1.Println("This is a warning message.")
+	errorLogger1.Println("This is a warning message.")
+}
+
+var (
+	infoLogger = log.New(os.Stdout, "INFO:", log.Ldate | log.Ltime | log.Lshortfile)
+	warnLogger = log.New(os.Stdout, "WARN:", log.Ldate | log.Ltime | log.Lshortfile)
+	errorLogger = log.New(os.Stdout, "ERROR:", log.Ldate | log.Ltime | log.Lshortfile)
+)
