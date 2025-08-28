@@ -1,0 +1,75 @@
+package main
+
+import (
+	"encoding/xml"
+	"fmt"
+	"log"
+)
+
+type Person struct {
+	XMLName xml.Name `xml:"person"`
+	Name    string   `xml:"name"`
+	Age     int      `xml:"age,omitempty"`
+	// City    string   `xml:"city,omitempty"`
+	// Email   string   `xml:"email"`
+	Email   string  `xml:"-"`
+	Address Address `xml:"address"`
+}
+
+type Address struct {
+	City  string `xml:"city"`
+	State string `xml:"state"`
+}
+
+func main() {
+
+	// person := Person{Name: "John", Age: 30, City: "London", Email: "email@address.com"}
+	person := Person{Name: "John", Email: "email@address.com", Address: Address{City: "Oakland", State: "CA"}}
+
+	// xmlData, err := xml.Marshal(person)
+	// if err != nil {
+	// 	log.Fatalln("Error marshalling data into XML:", err) // log.Fatal - no need to return, error will exit program
+	// }
+	// fmt.Println(xmlData)
+
+	xmlData1, err := xml.MarshalIndent(person, "", "  ")
+	if err != nil {
+		log.Fatalln("Error marshalling data into XML:", err)
+	}
+	fmt.Println(string(xmlData1))
+
+	// xmlRaw := `<person><name>Buster</name><age>40</age></person>`
+	xmlRaw := `<person><name>Buster</name><age>36</age><address><city>San Francisco</city><state>CA</state></address></person>`
+
+	var personxml Person
+
+	err = xml.Unmarshal([]byte(xmlRaw), &personxml)
+	if err != nil {
+		log.Fatalln("Error unmarshalling XML:", err)
+	}
+	fmt.Println(personxml)
+	fmt.Println("Local String:", personxml.XMLName.Local) // prints Local String: person
+	fmt.Println("Namespace:", personxml.XMLName.Space)    // prints Namespace:
+
+	book := Book{
+		ISBN:   "123456789-ABCDEFG",
+		Title:  "Who cut the cheese?",
+		Author: "Cow",
+		Pseudo: "Pseudo Attribute",
+	}
+	xmlDataAttr, err := xml.MarshalIndent(book, "", "  ")
+	if err != nil {
+		log.Fatalln("Error marshalling data:", err)
+	}
+	fmt.Println(xmlDataAttr)
+	fmt.Println(string(xmlDataAttr))
+}
+
+type Book struct {
+	XMLName    xml.Name `xml:"book"`
+	ISBN       string   `xml:"isbn,attr"`
+	Title      string   `xml:"title,attr"`
+	Author     string   `xml:"author,attr"`
+	Pseudo     string   `xml:"pseudo"`
+	PseudoAttr string   `xml:"pseudoattr,attr"`
+}
