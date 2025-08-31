@@ -1,0 +1,43 @@
+package main
+
+import "fmt"
+
+func main() {
+
+	// ch := make(<- chan int) // <- denotes receive only channel
+	// ch := make(chan <- int) // <- denotes send only channel
+	// ch := make(chan int) // <- bidirectional channel
+	ch := make(chan int)
+
+	// go func() {
+	// 	for i := range 5 {
+	// 		ch <- i
+	// 	}
+	// 	close(ch) // close channel before goroutine ends
+	// }()
+
+	// for value := range ch {
+	// 	fmt.Println("Received:", value)
+	// }
+	
+	producer(ch)
+
+	consumer(ch)
+}
+
+// Send only channel
+func producer(ch chan <- int) {
+	go func() {
+		for i := range 5 {
+			ch <- i
+		}
+		close(ch)
+	}()
+}
+
+// Receive only channel
+func consumer(ch <- chan int) {
+	for value := range ch {
+		fmt.Println("Received:", value)
+	}
+}
