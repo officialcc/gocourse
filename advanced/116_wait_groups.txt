@@ -1,0 +1,103 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+// === CONSTRUCTION EXAMPLE ===
+type Worker struct {
+	Id int
+	Task string
+}
+
+// PerformTask simulates a worker performing a task
+func (w *Worker) PerformTask(wg *sync.WaitGroup) {
+	defer wg.Done()
+	fmt.Printf("Worker ID %d started %s\n", w.Id, w.Task)
+	time.Sleep(time.Second)
+	fmt.Printf("Worker ID %d finished %s\n", w.Id, w.Task)
+}
+
+func main() {
+	var wg sync.WaitGroup
+	
+	// Define tasks to be performed by workers
+	tasks := []string{"digging", "laying bricks", "painting"}
+
+	for i, task := range tasks {
+		worker := Worker{Id: i+1, Task: task}
+		wg.Add(1)
+		go worker.PerformTask(&wg)
+	}
+
+	// Wait for all works to finish
+	wg.Wait()
+
+	// Construction is finished
+	fmt.Println("Construction finished")
+}
+
+// === EXAMPLE WITH CHANNELS ===
+// func worker(id int, tasks <- chan int, results chan <- int, wg *sync.WaitGroup) {
+// 	defer wg.Done()
+// 	fmt.Printf("Worker %d starting \n", id)
+// 	time.Sleep(time.Second) // simulate some work
+// 	for task := range tasks {
+// 		results <- task * 2
+// 	}
+// 	// results <- id * 2
+// 	fmt.Printf("Worker ID %d finished\n", id)
+// }
+
+// func main() {
+// 	var wg sync.WaitGroup
+// 	numWorkers := 3
+// 	numjobs := 5
+// 	results := make(chan int, numjobs)
+// 	tasks := make(chan int, numjobs)
+
+// 	wg.Add(numWorkers)
+// 	for i := range numWorkers {
+// 		go worker(i + 1, tasks, results, &wg)
+// 	}
+
+// 	for i := range numjobs {
+// 		tasks <- i + 1
+// 	}
+// 	close(tasks)
+
+// 	go func() {
+// 		wg.Wait()
+// 		close(results)
+// 	}()
+
+// 	for result := range results {
+// 		fmt.Println("Result:", result)
+// 	}
+// }
+
+// === BASIC EXAMPLE WITHOUT USING CHANNELS ===
+// func worker(id int, wg *sync.WaitGroup) {
+// 	defer wg.Done()
+// 	// wg.Add(1) // WRONG PRACTICE
+// 	fmt.Printf("Worker %d starting\n", id)
+// 	time.Sleep(time.Second) // simulate some time spent on processing task
+// 	fmt.Printf("Worker %d finished\n", id)
+// }
+
+// func main() {
+// 	var wg sync.WaitGroup
+// 	numWorkers := 3
+
+// 	wg.Add(numWorkers) // CORRECT WAY OF ADDING COUNTER TO WAIT GROUPS
+
+// 	// Launch workers
+// 	for i := range numWorkers {
+// 		go worker(i, &wg)
+// 	}
+
+// 	wg.Wait() // Blocking mechanism
+// 	fmt.Println("All workers finished")
+// }
