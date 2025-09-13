@@ -1,0 +1,75 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+)
+
+// --- NOTE: UNIX-BASED / LINUX / MACOS ONLY ---
+// kill -s SIGINT <PID> e.g. kill -s SIGINT 12345
+// kill -s SIGTERM 12345
+
+// --- FOR WINDOWS ---
+// taskkill /F /PID <PID> e.g. taskkill /F /PID 12345
+// Stop-Process -Id 12345 -Force
+func main() {
+
+	pid := os.Getpid()
+	fmt.Println("Process ID:", pid)
+	sigs := make(chan os.Signal, 1)
+	done := make(chan bool, 1)
+
+	// Notify channel on interrupt or terminate signals
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
+
+	go func() {
+		sig := <- sigs
+		fmt.Println("Received signal:", sig)
+		done <- true
+	}()
+	
+	go func() {
+
+		for {
+			select {
+			case <- done:
+				fmt.Println("Stopping work due to signal.")
+				// os.Exit(0)
+				return
+			default:
+				fmt.Println("Working ...")
+				time.Sleep(time.Second)
+			}
+		}
+
+		// sig := <- sigs
+		// for sig := range sigs {
+		// 	switch sig {
+		// 	case syscall.SIGINT:
+		// 		fmt.Println("Received SIGINT (Interrupt)")
+		// 	case syscall.SIGTERM:
+		// 		fmt.Println("Received SIGTERM (Terminate)")
+		// 	case syscall.SIGHUP:
+		// 		fmt.Println("Received SIGHUP (Hangup)")
+		// 		case syscall.SIGUSR1: // ONLY WORKS ON UNIX-BASED / LINUX / MACOS
+		// 				fmt.Println("Received SIGUSR1 (User Defined Signal 1)")
+		// 				fmt.Println("User defined function is executed")
+		// 			continue
+		// 		}
+		// 		fmt.Println("Graceful exit")
+		// 		os.Exit(0)
+				
+		// 		// fmt.Println("Received signal:", sig)
+		// 		// fmt.Println("Graceful exit.")
+		// }
+	}()
+
+	// Simulate some work
+	// fmt.Println("Working ...")
+	for {
+		time.Sleep(time.Second)
+	}
+}
