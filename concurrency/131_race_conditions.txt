@@ -1,0 +1,47 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+type counter struct {
+	mu    sync.Mutex
+	count int
+}
+
+func (c *counter) increment() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.count++
+}
+
+func (c *counter) getValue() int {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	return c.count
+}
+
+func main() {
+
+	var wg sync.WaitGroup
+	counter := &counter{} // creates a new instance of counter struct & returns a pointer to it; {} used here = new counter
+
+	numGoroutines := 10
+
+	// wg.Add(numGoroutines)
+	for range numGoroutines {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for range 1000 {
+				counter.increment() // consistently arrives at 10000
+				// counter.count++ // inconsistent results
+			}
+		}()
+	}
+
+	wg.Wait()
+	fmt.Printf("Final counter value: %d\n", counter.getValue())
+
+}
